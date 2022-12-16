@@ -3,6 +3,7 @@ import pygame
 from dino_runner.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS
 from dino_runner.components.Dinosaur import Dinosaur
 from dino_runner.components.Obstacles.obstacle_manager import Obstacle_manager
+
 class Game:
     def __init__(self):
         pygame.init()
@@ -11,13 +12,14 @@ class Game:
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.clock = pygame.time.Clock()
         self.playing = False
-        self.game_speed = 20
+        self.game_speed = 10
         self.x_pos_bg = 0
         self.y_pos_bg = 380
 
         self.player = Dinosaur()
         self.Obstacle_manager = Obstacle_manager()
         self.points = 0
+
     def score(self):
         self.points += 1
         if self.points % 100 == 0:
