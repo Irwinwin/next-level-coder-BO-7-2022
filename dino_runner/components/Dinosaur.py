@@ -1,7 +1,13 @@
 import pygame    
 from pygame.sprite import Sprite 
 from dino_runner.utils.constants import (
-        RUNNING, DUCKING, JUMPING, RUNNING_SHIELD, DUCKING_SHIELD, JUMPING_SHIELD, DEFAULT_TYPE, SHIELD_TYPE)
+        RUNNING, 
+        DUCKING, 
+        JUMPING, 
+        RUNNING_SHIELD, 
+        DUCKING_SHIELD, JUMPING_SHIELD,
+        DEFAULT_TYPE, 
+        SHIELD_TYPE)
 
 
 
@@ -26,6 +32,10 @@ class Dinosaur:
         self.dino_jump = False
         self.jump_vel = self.JUMP_VEL
         self.setup_states()
+        self.jump_sound = pygame.mixer.Sound('dino_runner/sonido/Jump.wav') #sonido
+        self.ducking_sound = pygame.mixer.Sound('dino_runner/sonido/ducking.wav')#sonido
+        self.shield_sound = pygame.mixer.Sound('dino_runner/sonido/shield3.mp3') #sonido
+
         
     def setup_states(self):
         self.has_power_up = False
@@ -44,7 +54,7 @@ class Dinosaur:
             self.dino_run = False
             self.dino_duck = True
             self.dino_jump = False
-        elif user_input[pygame.K_UP] and not self.dino_jump:
+        elif user_input[pygame.K_UP or pygame.K_SPACE] and not self.dino_jump:
             self.dino_run = False
             self.dino_duck = False
             self.dino_jump = True
@@ -74,7 +84,7 @@ class Dinosaur:
         self.dino_rect.x = self.POS_X
         self.dino_rect.y = self.POS_Y_DUCKING
         self.step_index += 1 
-        
+        self.ducking_sound.play() #reproduce sonido
 
     def jump(self):
         self.image = self.jum_img[self.type]
@@ -85,14 +95,19 @@ class Dinosaur:
             self.dino_rect.y = self.POS_Y
             self.dino_jump = False
             self.jump_vel = self.JUMP_VEL
+        self.jump_sound.play() #reproduce sonido
             
 
     def check_invincibility(self):
-         if self.shield:
+        if self.shield: 
+             self.shield_sound.play() #reproduce sonido solo si se cumple el if
              time_to_show = round((self.shield_time_up - pygame.time.get_ticks()) / 1000, 2)
              if not time_to_show >= 0:
                 self.shield = False
                 self.update_to_default(SHIELD_TYPE)
+                
+
+        
 
     def update_to_default (self, current_type):
          if self.type == current_type:

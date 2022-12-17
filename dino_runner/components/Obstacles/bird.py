@@ -7,7 +7,7 @@ class Bird(Obstacle):
     def __init__(self, image):
         self.type = 1
         super().__init__(image, self.type)
-        self.rect.y = random.choice([100, 150, 270]) 
+        self.rect.y = random.choice([80, 270]) 
         self.step_index = 0    
     
     def update(self, game_speed, obstacles):

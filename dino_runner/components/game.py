@@ -1,25 +1,36 @@
 import pygame
 
-from dino_runner.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS
+from dino_runner.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS , CLOUD
 from dino_runner.components.Dinosaur import Dinosaur
 from dino_runner.components.Obstacles.obstacle_manager import Obstacle_manager
 from dino_runner.components.power_ups.power_ups_maganager import PowerUpManager
+
+
 class Game:
     def __init__(self):
         pygame.init()
         pygame.display.set_caption(TITLE)
         pygame.display.set_icon(ICON)
+        pygame.mixer.init()
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.clock = pygame.time.Clock()
         self.playing = False
         self.game_speed = 10
         self.x_pos_bg = 0
         self.y_pos_bg = 380
+        # Nubes
+        self.x_pos_cloud = 100 
+        self.y_pos_cloud = 100
+        self.x_pos_cloud1 = 400 
+        self.y_pos_cloud1 = 150
 
         self.player = Dinosaur()
         self.Obstacle_manager = Obstacle_manager()
         self.points = 0
         self.power_up_manager = PowerUpManager()
+        #musica
+        pygame.mixer.music.load('dino_runner/sonido/fondo.wav')
+        pygame.mixer.music.play(-1)
 
     def score(self):
         self.points += 1
@@ -68,4 +79,19 @@ class Game:
             self.screen.blit(BG, (image_width + self.x_pos_bg, self.y_pos_bg))
             self.x_pos_bg = 0
         self.x_pos_bg -= self.game_speed
-
+        ##nube1
+        image_cloud = CLOUD.get_width()
+        self.screen.blit(CLOUD, (self.x_pos_cloud, self.y_pos_cloud))
+        self.screen.blit(CLOUD, (image_cloud + self.x_pos_cloud, self.y_pos_cloud))
+        if self.x_pos_cloud <= -image_cloud:
+            self.screen.blit(CLOUD, (image_cloud + self.x_pos_bg, self.y_pos_bg))
+            self.x_pos_bg = 0
+        self.x_pos_bg -= self.game_speed
+        #nube2
+        image_cloud = CLOUD.get_width()
+        self.screen.blit(CLOUD, (self.x_pos_cloud1, self.y_pos_cloud1))
+        self.screen.blit(CLOUD, (image_cloud + self.x_pos_cloud1, self.y_pos_cloud1))
+        if self.x_pos_cloud <= -image_cloud:
+            self.screen.blit(CLOUD, (image_cloud + self.x_pos_bg, self.y_pos_bg))
+            self.x_pos_bg = 0
+        self.x_pos_bg -= self.game_speed
