@@ -16,6 +16,7 @@ class Dinosaur:
     POS_Y = 310
     POS_Y_DUCKING = 350
     JUMP_VEL = 8.5
+    
 
     def __init__(self):
         self.duck_img = {DEFAULT_TYPE: DUCKING, SHIELD_TYPE: DUCKING_SHIELD}
@@ -35,6 +36,8 @@ class Dinosaur:
         self.jump_sound = pygame.mixer.Sound('dino_runner/sonido/Jump.wav') #sonido
         self.ducking_sound = pygame.mixer.Sound('dino_runner/sonido/ducking.wav')#sonido
         self.shield_sound = pygame.mixer.Sound('dino_runner/sonido/shield3.mp3') #sonido
+        self.hp = 10
+
 
         
     def setup_states(self):
@@ -54,7 +57,12 @@ class Dinosaur:
             self.dino_run = False
             self.dino_duck = True
             self.dino_jump = False
-        elif user_input[pygame.K_UP or pygame.K_SPACE] and not self.dino_jump:
+        elif user_input[pygame.K_UP] and not self.dino_jump:
+            self.dino_run = False
+            self.dino_duck = False
+            self.dino_jump = True
+        # barra espaciadora
+        elif user_input[pygame.K_SPACE] and not self.dino_jump:
             self.dino_run = False
             self.dino_duck = False
             self.dino_jump = True
@@ -65,6 +73,8 @@ class Dinosaur:
 
         if self.step_index >= 10:
             self.step_index = 0
+
+
 
     def draw(self, screen):
         screen.blit(self.image, self.dino_rect)
@@ -112,3 +122,4 @@ class Dinosaur:
     def update_to_default (self, current_type):
          if self.type == current_type:
              self.type = DEFAULT_TYPE
+
