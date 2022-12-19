@@ -6,7 +6,7 @@ from dino_runner.components.Obstacles.obstacle_manager import Obstacle_manager
 from dino_runner.components.power_ups.power_ups_maganager import PowerUpManager
 
 consolas = pygame.font.match_font('consolas')
-negro = pygame.Color.b
+negro = pygame.Color( 0, 0, 0)
 
 class Game:
     def __init__(self):
@@ -36,13 +36,14 @@ class Game:
         #musica
         pygame.mixer.music.load('dino_runner/sonido/fondoh.mp3')
         pygame.mixer.music.play(-1)
+        
 
     def score(self):
         self.points += 1
         if self.points % 100 == 0:
             self.game_speed += 1
 
-        print(self.score)
+        #print(self.score)
 
     def run(self):
         # Game loop: events - update - draw
@@ -75,8 +76,10 @@ class Game:
         self.player.draw(self.screen)
         self.Obstacle_manager.draw(self.screen)
         self.power_up_manager.draw(self.screen)
+        #self.marcador(self.screen,consolas,str(self.score), negro, 40, 700, 50)
         pygame.display.update()
         pygame.display.flip()
+        
 
 
     def draw_background(self):
@@ -111,3 +114,16 @@ class Game:
             self.x_pos_bg = 0
         self.x_pos_bg -= self.game_speed
     
+        if self.playing == True:
+             font = pygame.font.SysFont("consolas0", 3)
+             text = font.render("Irwin Luna", False, negro)
+             poss_x = 10
+             poss_y = 550
+             self.screen.blit(text,[poss_x, poss_y])
+            
+    def marcador(self, pantalla,fuente,texto,color, dimensiones, x, y):
+        tipo_letra = pygame.font.SysFont(fuente, dimensiones)
+        superficie  = tipo_letra.render(texto, True, color)
+        rectangulo = superficie .get_rect()
+        rectangulo.center = (x, y)
+        pantalla.blit(superficie ,rectangulo)
