@@ -115,7 +115,7 @@ class Game:
         self.x_pos_bg -= self.game_speed
     
         if self.playing == True:
-             font = pygame.font.SysFont("consolas0", 3)
+             font = pygame.font.SysFont("consolas", 30)
              text = font.render("Irwin Luna", False, negro)
              poss_x = 10
              poss_y = 550
